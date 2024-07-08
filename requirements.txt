@@ -1,4 +1,3 @@
-pip install --upgrade pip
 streamlit
 nltk
 pip install scikit-learn

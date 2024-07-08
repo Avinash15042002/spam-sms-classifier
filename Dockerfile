@@ -7,8 +7,12 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Upgrade pip to the latest version
-RUN pip install --upgrade pip
+# Install virtualenv
+RUN pip install --upgrade pip && pip install virtualenv
+
+# Create and activate a virtual environment
+RUN virtualenv venv
+ENV PATH="/app/venv/bin:$PATH"
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt

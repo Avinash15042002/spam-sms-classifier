@@ -6,6 +6,9 @@ import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
+vectorizer_path = '/app/vectorizer.pkl' 
+model_path = '/app/model.pkl'
+
 ps = PorterStemmer()
 
 

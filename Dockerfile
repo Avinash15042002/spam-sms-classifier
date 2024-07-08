@@ -1,18 +1,23 @@
-FROM ubuntu:latest
-RUN apt-get update
-RUN apt-get -y install nginx
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-COPY vectorizer.pkl /var/www/html/vectorizer.pkl
-COPY procfile /var/www/html/procfile
-COPY app.py /var/www/html/app.py
-COPY spam_sms_detection.py /var/www/html/spam_sms_detection.py
-COPY gitignore /var/www/html/gitignore
-COPY model.pkl /var/www/html/model.pkl
-COPY nltk.txt /var/www/html/nltk.txt
-COPY setup.sh /var/www/html/setup.sh
-COPY spam.csv /var/www/html/spam.csv
-COPY requirements.txt /var/www/html/requirements.txt
+# Set the working directory in the container
+WORKDIR /app
 
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Download NLTK data
+RUN python -c "import nltk; nltk.download('stopwords')"
+
+# Make port 80 available to the world outside this container
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
